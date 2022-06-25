@@ -1,0 +1,31 @@
+---
+-  hosts: all
+   become: yes
+   tasks:
+   - name: create file
+     file:
+       path: /home/ubuntu/testfile
+       state: toouch 
+
+   - include_tasks: myfile.yml
+   
+   - name: i want to copy file from master to node
+     copy:
+       src: staticfile
+       dest: /homr/ubuntu/mystaticfile
+
+   - name: i want install webserver
+     apt:
+       name: apache2
+       state: present
+
+   - name: copy dymanic file into node side
+     template: 
+        src: myindexfile.j2
+        dest: /var/www/html/index.html 
+   
+   - name: download
+     get_url:
+        url: <url>
+        dest: /home/ubuntu/<filename>
+        force_basic_auth: yes
